@@ -188,8 +188,9 @@ class AgEngine {
     }
 
     public function mostrarPoblacion($generacion = 0, $guardarEnDisco = false) {
-        $resultado = "";
-        $resultado .= "Generacion: " . $generacion . " Poblacion: " . sizeof($this->poblacion) . "\n";
+        date_default_timezone_set('Etc/GMT+5');
+        $resultado = "".date("Ymd-His");
+        $resultado .= " Generacion: " . $generacion . " Poblacion: " . sizeof($this->poblacion) . "\n";
         echo "Poblacion (" . sizeof($this->poblacion) . "):\n";
         foreach ($this->poblacion as $key => $value) {
             echo $value;
