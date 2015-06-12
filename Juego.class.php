@@ -16,14 +16,9 @@ class Juego {
         $this->p_obstaculos = $p_obstaculos;
         $this->setCarro($carro);
         $this->tablero = new Tablero($this->getCarro());
-//        $this->ver(0);
-//        $this->moverse(4);
-//        $this->ver(0);
-//        $this->verEstado();
     }
 
     public function jugar($velocidad = 0, $ver = false) {
-//        $nivel = 0;
         if ($ver) {
             $this->verEstado();
         }
@@ -69,8 +64,6 @@ class Juego {
                     $index = count($adn);
                 }
             }
-
-//            $nuevaPosicion = $this->carro->moverse();
             if ($ver) {
                 $this->verEstado($index);
             }

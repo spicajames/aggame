@@ -38,12 +38,6 @@ class Carro {
 
     private function generarNombre() {
         return md5(implode("", $this->getAdn()));
-//        $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//        $mt_randstring = "";
-//        for ($i = 0; $i < 10; $i++) {
-//            $mt_randstring .= $characters[mt_rand(0, strlen($characters) - 1)];
-//        }
-//        return $mt_randstring;
     }
 
     public function colision($columna) {
@@ -105,9 +99,6 @@ class Carro {
 
     public function setMemoriaVisual($memoriaVisual) {
         $this->memoriaVisual = $memoriaVisual;
-//        for ($index = 0; $index < count($memoriaVisual); $index++) {
-//            array_push($this->memoriaVisual, $index . "-" . $memoriaVisual[$index]);
-//        }
     }
 
     public static function comparar(Carro $a, Carro $b) {

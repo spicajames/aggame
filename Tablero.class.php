@@ -47,7 +47,6 @@ class Tablero {
             }
             $resultado .= "\n";
         }
-        //system("clear");
         return $resultado;
     }
 
