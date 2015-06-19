@@ -131,6 +131,14 @@ class Carro {
         return $cadena;
     }
 
+    public function dbLog($base) {
+        $registro['nombre'] = $this->nombre;
+        $registro['desempeño'] = $this->getDesempeño();
+        $registro['ninstrucciones'] = sizeof($this->getAdn());
+        $registro['adn'] = implode(",", $this->getAdn());
+        return(array_merge($base, $registro));
+    }
+
 //    public function __toString() {
 //        $cadena = "Posicion Actual: " . $this->getPosicionActual() . " \n";
 //        $cadena .= "Memoria Visual: " . "\n";
