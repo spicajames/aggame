@@ -58,7 +58,6 @@ class Juego {
                     $this->verEstado($index);
                 }
                 if ($detectarCicloInfinito > 10) {
-
                     $colision = true;
                     $this->nivelActual = 0;
                     $index = count($adn);
@@ -117,7 +116,7 @@ class Juego {
             $columna = 0;
         if ($columna >= 5)
             $columna = 4;
-        $this->getTablero()->setCarro($columna);
+        $this->getTablero()->setCarro($posicionAnterior, $columna);
         $this->getCarro()->setPosicionActual($columna);
     }
 
