@@ -58,11 +58,15 @@ class Tablero {
         $this->carretera = $carretera;
     }
 
-    public function setCarro($nueva) {
-        for ($columna = 0; $columna < 5; $columna++) {
-            $this->carretera[0][$columna] = " ";
-        }        
-        $this->carretera[0][$nueva] = "A";
+    public function setCarro($anterior, $nueva) {
+        if ($this->carretera[0][$nueva] === $this->c_obstaculo) {
+            return true;
+        }
+        if ($anterior != $nueva) {
+            $this->carretera[0][$anterior] = " ";
+            $this->carretera[0][$nueva] = "A";
+        }
+        return false;
     }
 
     public function getC_obstaculo() {
