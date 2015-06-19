@@ -10,13 +10,42 @@ class AgEngine {
     private $numeroPruebas;
     private $instrucciones;
     private $poblacion;
-    private $poblacionElite;
+    private $poblacionInicial;
     private $desempeñoTotal;
     private $padres;
     private $hijos;
     private $fecha;
+    private $idEjecucion;
+    private $nombre;
+    private $tableros;
+    private $verEstado;
+    private $generacionInicial = 0;
 
-    public function __construct($tamañoPoblacion = 30, $tamañoADNMinimo = 15, $tamañoADNMaximo = 100, $numeroPruebas = 100, $mutacion = 25, $tamañoElite = 3, $poblacionElite = null) {
+    public function getGeneracionInicial() {
+        return $this->generacionInicial;
+    }
+
+    public static function continuar($ejecucionId) {
+        $db = new Db();
+
+        $this->idEjecucion = $ejecucionId;
+        $rejecucion = $db->obtenerEjecucion($ejecucionId);
+
+        $this->generacionInicial = $rejecucion['generacionActual'];
+
+        $tableros = $db->obtenerPruebas($ejecucionId);
+
+        $instance = new self(
+                $rejecucion['tpoblacion'], $rejecucion['tadnminimo'], $rejecucion['tadnmaximo'],
+                $rejecucion['npruebas'], $rejecucion['pmutacion'], $rejecucion['telite'], 
+                $rejecucion['poblacionInicial'], $tableros, false
+        );
+        return $instance;
+    }
+
+    public function __construct($tamañoPoblacion = 30, $tamañoADNMinimo = 15, $tamañoADNMaximo = 100,
+            $numeroPruebas = 100, $mutacion = 25, $tamañoElite = 3, $poblacionInicial = null, 
+            $tableros = null, $verEstado = false) {
         $this->instrucciones = array(
             0 => array("v", 0, 10),
             1 => array("c", 0, 5),
@@ -30,12 +59,35 @@ class AgEngine {
         $this->tamañoADNMinimo = $tamañoADNMinimo;
         $this->tamañoPoblacion = $tamañoPoblacion;
         $this->mutacion = $mutacion;
-        $this->poblacionElite = $poblacionElite;
+        $this->poblacionInicial = $poblacionInicial;
         $this->tamañoElite = $tamañoElite;
+        $this->tableros = $tableros;
+        $this->verEstado = $verEstado;
 
         date_default_timezone_set('Etc/GMT+5');
         $this->fecha = date("Ymd-His");
 
+        $rejecucion['tpoblacion'] = $this->tamañoPoblacion;
+        $rejecucion['tadnminimo'] = $this->tamañoADNMinimo;
+        $rejecucion['tadnmaximo'] = $this->tamañoADNMaximo;
+        $rejecucion['npruebas'] = $this->numeroPruebas;
+        $rejecucion['pmutacion'] = $this->mutacion;
+        $rejecucion['telite'] = $this->tamañoElite;
+
+        $cadenaParametros = implode("-", $rejecucion);
+
+        $this->nombre = md5($cadenaParametros);
+        $rejecucion['nombre'] = $this->nombre;
+
+        if (!isset($this->idEjecucion)) {
+            $db = new Db();
+            $this->idEjecucion = $db->grabarEjecucion($rejecucion);
+            $db->grabarPruebas($this->idEjecucion, $this->tableros);
+        }
+        $this->mostrarInicializacion();
+    }
+
+    private function mostrarInicializacion() {
         $resultado = "";
         $resultado .= " Po: " . $this->tamañoPoblacion;
         $resultado .= " Ami: " . $this->tamañoADNMinimo;
@@ -43,20 +95,28 @@ class AgEngine {
         $resultado .= " Pr: " . $this->numeroPruebas . " ";
         $resultado .= " M: " . $this->mutacion;
         $resultado .= " Te: " . $this->tamañoElite;
-        if (sizeof($this->poblacionElite) > 0) {
+        if (sizeof($this->poblacionInicial) > 0) {
             $resultado .= " Elite: \n";
-            foreach ($this->poblacionElite as $value) {
-                $resultado.= implode(",",$value->getAdn())."\n";
+            foreach ($this->poblacionInicial as $value) {
+                $resultado.= implode(",", $value->getAdn()) . "\n";
             }
         }
+
+        if (!is_null($this->tableros)) {
+            $resultado .= "\nTableros:\n";
+            foreach ($this->tableros as $tablero) {
+                $resultado .= implode("-", $tablero) . "\n";
+            }
+        }
+
         file_put_contents("aglog-" . $this->fecha . ".txt", $resultado, FILE_APPEND);
     }
 
     public function generarPoblacionInicial() {
         $this->poblacion = array();
         for ($index = 0; $index < $this->tamañoPoblacion; $index++) {
-            if (isset($this->poblacionElite[$index])) {
-                $this->poblacion[] = $this->poblacionElite[$index];
+            if (isset($this->poblacionInicial[$index])) {
+                $this->poblacion[] = $this->poblacionInicial[$index];
             } else {
                 $this->poblacion[] = new Carro($this->generarADN());
             }
@@ -84,15 +144,19 @@ class AgEngine {
         for ($ipoblacion = 0; $ipoblacion < count($this->poblacion); $ipoblacion++) {
             $nivel = 0;
             for ($ipruebas = 0; $ipruebas < $this->numeroPruebas; $ipruebas++) {
-                $juego = new Juego($this->poblacion[$ipoblacion]);
-                $nivel += $juego->jugar();
+                $juego = new Juego2($this->poblacion[$ipoblacion], null, $this->tableros[$ipruebas]);
+                $velo = 0;
+                if ($this->verEstado) {
+                    $velo = 10000;
+                }
+                $nivel += $juego->jugar($velo, $this->verEstado);
             }
             $nivelFinal = round($nivel / $this->numeroPruebas);
             $this->poblacion[$ipoblacion]->setDesempeño($nivelFinal);
             $this->desempeñoTotal += $nivelFinal;
         }
 
-        //Ordenar la poblacion deacuerdo al desempeño
+//Ordenar la poblacion deacuerdo al desempeño
         usort($this->poblacion, array("Carro", "comparar"));
     }
 
@@ -124,7 +188,7 @@ class AgEngine {
 
     public function producirHijos() {
         for ($ihijos = 0; $ihijos < $this->tamañoPoblacion; $ihijos++) {
-            //escoger padre
+//escoger padre
             $ipadreA = mt_rand(0, $this->tamañoPoblacion - 1);
             $ipadreB = mt_rand(0, $this->tamañoPoblacion - 1);
             $hijo = $this->combinar($this->poblacion[$ipadreA], $this->poblacion[$ipadreB]);
@@ -187,18 +251,37 @@ class AgEngine {
         $this->poblacion = array_slice($this->hijos, 0, $this->tamañoPoblacion);
     }
 
-    public function mostrarPoblacion($generacion = 0, $guardarEnDisco = false) {
+    public function mostrarPoblacion($generacion = 0, $guardar = false) {
+        $resultadodb = array();
         date_default_timezone_set('Etc/GMT+5');
-        $resultado = "".date("Ymd-His");
+        $resultado = "" . date("Ymd-His");
         $resultado .= " Generacion: " . $generacion . " Poblacion: " . sizeof($this->poblacion) . "\n";
+
+        $rgeneracion['numero'] = $generacion;
+        $rgeneracion['ejecucion'] = $this->idEjecucion;
+        $db = new Db();
+        $generacionId = $db->grabarGeneracion($rgeneracion);
+
+//        $resultadodb["generacion"] = $generacion;
+        $resultadodb["generacion_id"] = $generacionId;
+
         echo "Poblacion (" . sizeof($this->poblacion) . "):\n";
+        $individuo = 0;
         foreach ($this->poblacion as $key => $value) {
             echo $value;
-            if ($guardarEnDisco) {
+            $resultadodb["individuo"] = $individuo;
+            $individuo++;
+            if ($guardar) {
                 $resultado .= $value->log();
+                $resultadodb = $value->dbLog($resultadodb);
+                $db = new Db();
+                $db->grabarRegistro($resultadodb);
             }
         }
         file_put_contents("aglog-" . $this->fecha . ".txt", $resultado, FILE_APPEND);
+
+
+
 
 //        echo "Padres (" . sizeof($this->padres) . "):\n";
 //        foreach ($this->padres as $key => $value) {
