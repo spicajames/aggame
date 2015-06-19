@@ -13,33 +13,12 @@ function __autoload($nombre_clase) {
 //$instrucciones = explode(",", "c1,v2,m-3,s20,m1,t0,c5,v5,t0,m-3,s37,t0,v2,m4,m-1,c4,m1,t0,s76,c3,t0,m2,m-3,s97,v9,m-4,c4,c3,s100,c1,c1,s131,s43,s43,m2,t0,v2,c4,t0,s43,m-4,t0,c1,s143,v0,c5,t0,s144,s114,t0,c1,s86,m-1,v9,c5,c0,v10,c0,v0,t0,c5,v4,c3,s45,c2,s68,t0,s51,s41,s101,s120,t0,m2,s141,s78,v1,c5,v1,t0,m1,m2,t0,c3,s125,c0,s88,v0,v5,m-1,c5,c1,c3,c3,c5,s117,m-3,m-3,t0,m1,m-1,m-3,t0,c3,c1,s92,v8,m1,m1,s99,t0,t0,m3,m-2,v3,t0,m2,s147,c5");
 //$instrucciones = explode(",", "v1,c0,m1,s109,m-3,m-2,v3,c1,t0,s73,c4,v1,t0,s5,v8,t0,t0,t0,s73,c3,c5,v2,s57,c2,t0,m2,s23,s102,s26,v9,t0,c1,t0,c3,v5,t0,m-2,t0,t0,c1,m0,t0,t0,v6,t0,v9,v3,t0,c3,t0,s112,m4,s121,t0,t0,c2,s41,s91,v3,m1,s148,v5,c0,m-3,m2,m0,s144,v1,c5,s41,m3,m-3,t0,v6,m-1,t0,c1,t0,t0,v2,m-1,t0,t0,s148,c4,c2,t0,c3");
 //$instrucciones = explode(",", "v1,c0,s7,s32,m-3,t0,t0,m2,c2,m3,s94,m-2,c1,t0,c1,c4,v8,s120,s68,t0,v2,v8,m2,t0,t0,t0,s130,s75,c2,m2,s136,s79,t0,v5,m-4,t0,v0,v7,t0,s13,v9,v1,s68,s145,v4,s87,m-3,m3,t0,s17,m1,c4,t0,c1,s34,m-2,s13,m0,t0,s126,s116,v7,c0,v7,t0,t0,m3,t0,s118,s67,c3,c4,t0,v4,v4,s120,v4,m-2,t0,c0,m0,s104,v1,s145,m-2,t0,m4,s55,v0,s77,m2,s85,c3,m4,m3,m-3,t0,m3,s94,c5,c4,c5,m0,v8,c2,t0,c4,t0,c1,v8,m0,m-2,t0,c5,t0,m-3,m1,m-1,s0,t0,t0,t0");
-$instrucciones = explode(",", "v1,c0,s7,m-4,m-3,t0,m4,m2,c2,m3,s128,m-2,t0,t0,t0,v5,s31,m1,s119,t0,t0,c1,c3,m0,c4,c5,t0,v6,v9,t0,c3,t0,c5,m-4,c3,v1,c4,t0,t0,t0,c2,s40,m2,m2,s62,s2,m-1,s65,t0,m-2,v3,t0,v6,t0,v4,v6,t0,v6,c1,v1,v0,t0,t0,s127,t0,t0,c2,c5,m-3,t0,t0,v3,m-1,c4,s6,t0,c1,s66,m-1,v3,v10,t0,m-2,t0,m-3,t0,c5,m0,c1,s46,c0,m2,m-1,m1,s141,s34,s127,t0,m1,t0,c5,c3,m4,v2,t0,t0,t0,v9,m-2,m4,t0,t0,c5,v0,s32,s9,m2,c4");
+//$instrucciones = explode(",", "v1,c0,s7,m-4,v7,t0,v10,c2,m4,s66,m-2,t0,s19,m4,c0,c2,v5,s38,v10,v2,v2,s5,c1,v8,m4,v10,t0,s60,v4,c5,c4,s89,t0,s112,v4,t0,s137,t0,t0,c2,t0,s8,m1,s95,v5,t0,c4,c0,v3,v0,s124,c1,m-1,v4,v10,t0,c3,m-4,c1,v0,t0,m1,m-3,m3,m1,v4,c0,s55,m1,m3,t0,s109,s48,m3,s31,c1,s143,c5,v3,v9,t0");
+$instrucciones = explode(",", "m-1,s91,v3,c2,c4,v6,c0,s351,m2,t0,m-2,c1,v0,v8,c0,m-1,t0,v3,m3,t0,c1,c2,s190,v10,c5,s128,m4,c1,s376,t0,s40,c4,s267,c1,t0,t0,s30,c3,c5,m0,c0,c0,v7,m2,t0,m4,t0,s198,m3,c4,m1,c0,s88,m4,m-2,c2,v1,s181,c5,m-3,t0,m2,v10,c3,m-4,m2,t0,s219,s305,c5,m-4,m-1,v8,s56,s17,t0,t0,v7,c1,v2,c5,s210,s64,m4,m4,t0,s30,v4,s146,m3,m-4,c0,s77,t0,v4,v7,c1,c0,s88,t0,t0,t0,t0,t0,m2,v6,s378,c1,m-1,v4,m-1,m-3,c5,t0,s151,s78,s263,m-4,c1,m-2,m-2,s181,m-3,v0,t0,m4,m0,v3,m2,s39,m-3,t0,m0,t0,v4,t0,c5,v4,v2,m3,s153,v3,m2,v8,c2,c3,c0,m0,m-1,s362,v7,s199,t0,v3,s418,m-4,m-4,m-3,t0,t0,t0,t0,t0,m1,v4,s336,v2,c1,m3,m-3,s153,v3,t0,v8,c2,m4,c2,c3,c0,m0,m-1,v3,s362,c0,v7,s199,t0,c1,s394,v10,m-3,s153,v3,t0,v8,s494,m2,c2,m4,c2,c3,c0,m0,m-1,v3,s362,c0,v7,s199,t0,v0,c1,v3,s132,m-4,v10,s344,c2");
+//$instrucciones = explode(",", "v1,m-4,c5,s15,t0,s40,c5,c5,v7,c1,s11,v9,t0,s136,m0,m3,c1,s94,m-2,t0,v10,s129,m2,t0,m-2,c5,v1,t0,t0,t0,v3,s107,m0,m1,c1,c3,v8,v4,v10,t0,t0,v4,t0,m2,m-4,t0,m3,c2,m-3,m3,v1,c4,c4,s32,m-3,c4,v7,t0,s64,s68,v8,m1,m3,s20,s0,m0,t0,t0,v6,s99,c5,t0,c2,s57,m2,c1,s19,s96,t0,s113,v2,t0,s144,c3,v4,m2,s148,t0,t0,v4,v8,m1,c3");
 
 
-$juego = new Juego(new Carro($instrucciones), 12);
+$juego = new Juego2(new Carro($instrucciones), 18, array(1.8,2,13,21));
+//$juego = new Juego(new Carro($instrucciones),18);
 $juego->jugar(50000, true);
 
-//error_reporting(E_ERROR | E_WARNING | E_PARSE);
-//
-//function bufferout($newline, $buffer=null){
-//    $count = strlen(rtrim($buffer));
-//    $buffer = $newline;
-//    if(($whilespace = $count-strlen($buffer))>=1){
-//        $buffer .= str_repeat(" ", $whilespace);
-//    }
-//    return $buffer."\r"; 
-//};
-//
-//$start = "abcdefghijklmnopqfja sdklfaj sdklfja sdlkfja sdklfja sdklfja sdñfkljasdñklajsd klfajdsfkl ajds fklajdsfklñajdfñ akjsdfñaklsdjfa ñsdklfja ñsdklfja sdlñkfja dñklfjasdklñfjasdñkl fjasdñlfkjañsdklfjasdlrstuvwxyz0123456789";
-//$i = strlen($start);
-//
-//while ($i >= 0){
-//    $new = substr($start, 0, $i);
-//    if($old){
-//        echo $old = bufferout($new, $old);
-//    }else{
-//        echo $old = bufferout($new);
-//    }
-//    sleep(1);
-//    $i--;
-//}
